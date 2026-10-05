@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Codex로 만드는 첫 플랫폼 - 프론트엔드 실습 강의교안</title>
+<style>
+  :root{
+    --bg:#f6f7f9;
+    --paper:#ffffff;
+    --ink:#111318;
+    --muted:#676d78;
+    --line:#e5e8ee;
+    --brand:#315efb;
+    --brand-soft:#edf2ff;
+    --accent:#0f766e;
+    --warn:#a16207;
+    --dark:#16181d;
+    --code:#0f172a;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family: Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", Arial, sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    line-height:1.72;
+  }
+  .layout{
+    display:grid;
+    grid-template-columns:280px minmax(0,1fr);
+    min-height:100vh;
+  }
+  aside{
+    position:sticky;
+    top:0;
+    height:100vh;
+    background:#111318;
+    color:white;
+    padding:30px 22px;
+    overflow:auto;
+  }
+  .logo{
+    font-size:13px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:#aab4c7;
+    margin-bottom:10px;
+  }
+  aside h1{
+    font-size:22px;
+    line-height:1.35;
+    margin:0 0 24px;
+  }
+  .nav a{
+    display:block;
+    color:#c7ccd7;
+    text-decoration:none;
+    padding:9px 10px;
+    border-radius:8px;
+    font-size:14px;
+    margin-bottom:3px;
+  }
+  .nav a:hover{background:#22262e;color:#fff}
+  .side-note{
+    margin-top:26px;
+    padding:14px;
+    border:1px solid #303540;
+    border-radius:12px;
+    font-size:12px;
+    color:#aab4c7;
+  }
+  main{padding:56px 32px 100px}
+  .wrap{max-width:1040px;margin:0 auto}
+  .hero{
+    background:linear-gradient(135deg,#14161b,#252a35);
+    color:#fff;
+    border-radius:24px;
+    padding:54px;
+    margin-bottom:34px;
+    box-shadow:0 24px 80px rgba(20,24,35,.14);
+  }
+  .eyebrow{
+    display:inline-block;
+    font-size:13px;
+    font-weight:700;
+    padding:7px 10px;
+    border-radius:999px;
+    background:rgba(255,255,255,.1);
+    margin-bottom:18px;
+  }
+  .hero h2{
+    font-size:44px;
+    line-height:1.16;
+    margin:0 0 18px;
+    letter-spacing:-.035em;
+  }
+  .hero p{
+    max-width:760px;
+    font-size:18px;
+    color:#cbd1dc;
+    margin:0;
+  }
+  .goal-grid,.tool-grid,.card-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+    margin-top:22px;
+  }
+  .card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:24px;
+  }
+  .card h4{margin:0 0 8px;font-size:17px}
+  .card p{margin:0;color:var(--muted);font-size:14px}
+  section{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:22px;
+    padding:38px;
+    margin:22px 0;
+  }
+  section h2{
+    margin:0 0 8px;
+    font-size:30px;
+    letter-spacing:-.025em;
+  }
+  section h3{
+    margin:32px 0 10px;
+    font-size:21px;
+  }
+  .lead{
+    color:var(--muted);
+    font-size:16px;
+    margin:0 0 22px;
+  }
+  .step{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:var(--brand-soft);
+    color:var(--brand);
+    font-weight:800;
+    font-size:13px;
+    padding:7px 10px;
+    border-radius:999px;
+    margin-bottom:12px;
+  }
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin:18px 0;
+    font-size:14px;
+  }
+  th,td{
+    border-bottom:1px solid var(--line);
+    padding:13px 10px;
+    text-align:left;
+    vertical-align:top;
+  }
+  th{font-size:13px;color:#555d6a;background:#fafbfc}
+  .yes{font-weight:800;color:var(--accent)}
+  .optional{font-weight:800;color:var(--warn)}
+  code{
+    font-family:"SFMono-Regular",Consolas,monospace;
+    font-size:.92em;
+  }
+  pre{
+    background:var(--code);
+    color:#e7edf7;
+    padding:18px 20px;
+    border-radius:14px;
+    overflow:auto;
+    line-height:1.55;
+    font-size:13px;
+  }
+  .callout{
+    border-left:4px solid var(--brand);
+    background:#f6f8ff;
+    padding:16px 18px;
+    border-radius:0 12px 12px 0;
+    margin:18px 0;
+  }
+  .warning{
+    border-left-color:#d97706;
+    background:#fff8eb;
+  }
+  .flow{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    align-items:center;
+    margin:24px 0;
+  }
+  .flow span{
+    padding:11px 14px;
+    border:1px solid var(--line);
+    border-radius:12px;
+    background:#fff;
+    font-weight:700;
+    font-size:14px;
+  }
+  .arrow{color:#9aa1ad;font-weight:700}
+  .prompt{
+    background:#151821;
+    color:#f3f4f6;
+    border-radius:16px;
+    padding:22px;
+    margin:14px 0;
+  }
+  .prompt b{color:#9cc0ff}
+  ul.check{list-style:none;padding:0}
+  ul.check li{
+    padding:9px 0 9px 32px;
+    position:relative;
+    border-bottom:1px dashed #e8ebf0;
+  }
+  ul.check li:before{
+    content:"□";
+    position:absolute;
+    left:4px;
+    font-weight:800;
+    color:var(--brand);
+  }
+  .two{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+  }
+  .tag{
+    display:inline-block;
+    font-size:12px;
+    border:1px solid var(--line);
+    padding:4px 8px;
+    border-radius:999px;
+    color:#59606c;
+    margin:3px;
+  }
+  .footer{
+    margin-top:30px;
+    font-size:12px;
+    color:#808793;
+    text-align:center;
+  }
+  @media (max-width:900px){
+    .layout{grid-template-columns:1fr}
+    aside{position:relative;height:auto}
+    main{padding:28px 16px 70px}
+    .hero{padding:32px 24px}
+    .hero h2{font-size:34px}
+    .goal-grid,.tool-grid,.card-grid,.two{grid-template-columns:1fr}
+    section{padding:26px 20px}
+  }
+  @media print{
+    aside{display:none}
+    .layout{display:block}
+    body{background:white}
+    main{padding:0}
+    section,.hero{box-shadow:none;break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+<aside>
+  <div class="logo">AGENL AX WORKLAB</div>
+  <h1>Codex로 만드는<br>첫 플랫폼</h1>
+  <div class="nav">
+    <a href="#overview">강의 개요</a>
+    <a href="#setup">1. 개발환경 설치</a>
+    <a href="#prd">2. PRD 기획</a>
+    <a href="#design">3. 구조와 디자인</a>
+    <a href="#build">4. Codex 구현</a>
+    <a href="#git">5. GitHub 업로드</a>
+    <a href="#deploy">6. Vercel 배포</a>
+    <a href="#backend">7. 백엔드 이해</a>
+    <a href="#project">8. 최종 실습</a>
+  </div>
+  <div class="side-note">
+    목표는 개발자가 되는 것이 아니라<br>
+    내가 기획한 서비스를 직접 만들고<br>
+    실제 URL로 공개하는 경험입니다.
+  </div>
+</aside>
+
+<main>
+<div class="wrap">
+
+<div class="hero" id="overview">
+  <div class="eyebrow">FRONTEND BUILD WORKSHOP</div>
+  <h2>기획부터 배포까지<br>한 번에 경험하는 플랫폼 제작</h2>
+  <p>
+    Codex를 활용해 간단한 웹 플랫폼을 설계하고 구현한 뒤 GitHub와 Vercel을 이용해 실제 서비스 URL까지 만들어 봅니다.
+    백엔드는 깊게 개발하지 않고 Supabase와 Railway의 역할과 연결 구조를 이해하는 수준으로 다룹니다.
+  </p>
+</div>
+
+<div class="goal-grid">
+  <div class="card"><h4>01. 기획</h4><p>아이디어를 PRD와 사용자 흐름으로 구체화합니다.</p></div>
+  <div class="card"><h4>02. 구현</h4><p>Codex와 대화하며 프론트엔드를 단계별로 만듭니다.</p></div>
+  <div class="card"><h4>03. 배포</h4><p>GitHub에 코드를 올리고 Vercel로 공개합니다.</p></div>
+</div>
+
+<section>
+  <h2>전체 개발 흐름</h2>
+  <p class="lead">강의에서는 이 순서를 반복해서 강조합니다. 기능보다 흐름을 익히는 것이 핵심입니다.</p>
+  <div class="flow">
+    <span>환경설치</span><b class="arrow">→</b>
+    <span>PRD</span><b class="arrow">→</b>
+    <span>구조설계</span><b class="arrow">→</b>
+    <span>디자인</span><b class="arrow">→</b>
+    <span>Codex 구현</span><b class="arrow">→</b>
+    <span>GitHub</span><b class="arrow">→</b>
+    <span>Vercel</span>
+  </div>
+  <div class="callout">
+    <strong>추천 실습 범위</strong><br>
+    로그인, 결제, 관리자 기능까지 한 번에 만들기보다 첫 수업에서는 검색, 카드 목록, 필터, 상세 페이지, 폼 UI 정도까지 구현하는 것이 좋습니다.
+  </div>
+</section>
+
+<section id="setup">
+  <div class="step">STEP 01</div>
+  <h2>데스크탑 개발환경 설치</h2>
+  <p class="lead">초급 강의에서는 필요한 도구와 선택 도구를 구분해 주는 것이 중요합니다.</p>
+
+  <table>
+    <thead><tr><th>도구</th><th>필수 여부</th><th>역할</th><th>확인 명령</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Git</strong></td><td class="yes">필수</td><td>코드 버전관리, GitHub 업로드</td><td><code>git --version</code></td></tr>
+      <tr><td><strong>Node.js LTS</strong></td><td class="yes">필수</td><td>React, Next.js, Vite 실행 환경</td><td><code>node -v</code></td></tr>
+      <tr><td><strong>npm</strong></td><td class="yes">필수</td><td>패키지 설치와 프로젝트 실행</td><td><code>npm -v</code></td></tr>
+      <tr><td><strong>Codex</strong></td><td class="yes">필수</td><td>코드 작성, 수정, 구조 분석</td><td>설치 방식에 따라 확인</td></tr>
+      <tr><td><strong>VS Code</strong></td><td class="optional">선택</td><td>파일 구조와 코드를 직접 확인할 때 유용</td><td>앱 실행</td></tr>
+      <tr><td><strong>Python</strong></td><td class="optional">선택</td><td>데이터 가공, API, 자동화 확장 시 활용</td><td><code>python --version</code></td></tr>
+    </tbody>
+  </table>
+
+  <h3>계정 준비</h3>
+  <ul class="check">
+    <li>GitHub 계정</li>
+    <li>Vercel 계정</li>
+    <li>OpenAI 또는 Codex 사용 계정</li>
+    <li>Figma 또는 Google Stitch 사용 계정</li>
+    <li>백엔드 확장 실습 시 Supabase 계정</li>
+  </ul>
+
+  <h3>설치 확인</h3>
+  <pre>git --version
+node -v
+npm -v
+python --version</pre>
+
+  <div class="callout warning">
+    <strong>Python은 꼭 필요한가?</strong><br>
+    프론트엔드만 제작하는 수업이라면 필수는 아닙니다. HTML, CSS, JavaScript, React, Next.js 중심이라면 Node.js가 핵심입니다.
+    Python은 이후 FastAPI, 데이터 가공, AI 모델 연결 수업으로 확장할 때 설치해도 됩니다.
+  </div>
+</section>
+
+<section id="prd">
+  <div class="step">STEP 02</div>
+  <h2>PRD 기획문서 만들기</h2>
+  <p class="lead">바이브코딩에서 가장 많이 발생하는 문제는 코딩 실력이 아니라 요구사항이 계속 바뀌는 것입니다.</p>
+
+  <h3>PRD에 반드시 들어갈 8가지</h3>
+  <div class="card-grid">
+    <div class="card"><h4>문제 정의</h4><p>무슨 문제를 해결하는가?</p></div>
+    <div class="card"><h4>타깃 사용자</h4><p>누가 사용하는가?</p></div>
+    <div class="card"><h4>핵심 가치</h4><p>왜 이 서비스를 써야 하는가?</p></div>
+    <div class="card"><h4>핵심 기능</h4><p>반드시 필요한 기능 3개에서 5개</p></div>
+    <div class="card"><h4>사용자 흐름</h4><p>접속부터 완료까지 행동 순서</p></div>
+    <div class="card"><h4>페이지 구조</h4><p>홈, 목록, 상세 등 화면 정의</p></div>
+    <div class="card"><h4>제외 범위</h4><p>이번 버전에서 만들지 않을 것</p></div>
+    <div class="card"><h4>완료 조건</h4><p>어디까지 되면 1차 완성인가?</p></div>
+  </div>
+
+  <h3>PRD 작성용 Codex 프롬프트</h3>
+  <div class="prompt">
+    <b>Prompt</b><br><br>
+    나는 [서비스 아이디어]를 만들려고 한다.<br>
+    사용자는 [타깃 사용자]다.<br>
+    해결하려는 문제는 [문제]다.<br><br>
+    이 서비스를 프론트엔드 MVP로 제작하기 위한 PRD를 작성해줘.<br>
+    다음 항목을 포함해줘.<br>
+    1. 서비스 개요<br>
+    2. 핵심 사용자<br>
+    3. 문제 정의<br>
+    4. 핵심 기능 5개 이하<br>
+    5. 사용자 흐름<br>
+    6. 페이지 구성<br>
+    7. 이번 버전에서 제외할 기능<br>
+    8. 완료 조건<br>
+    9. 추천 기술 스택
+  </div>
+
+  <h3>간단한 PRD 예시</h3>
+  <pre># 프로젝트명
+AI 강의자료 아카이브
+
+## 목표
+강사가 여러 강의자료를 한 화면에서 분류하고 빠르게 찾는다.
+
+## 주요 사용자
+기업교육 강사
+
+## 핵심 기능
+- 자료 카드 목록
+- 카테고리 필터
+- 검색
+- 자료 상세 모달
+- 새 자료 등록 UI
+
+## 제외
+- 로그인
+- 결제
+- 실제 데이터베이스 저장
+- 관리자 권한
+
+## 완료조건
+로컬 실행 가능
+모바일 대응
+GitHub 업로드
+Vercel 공개 URL 생성</pre>
+</section>
+
+<section id="design">
+  <div class="step">STEP 03</div>
+  <h2>구조 설계와 디자인</h2>
+  <p class="lead">디자인부터 시작하지 말고 구조를 먼저 정한 뒤 화면 스타일을 결정합니다.</p>
+
+  <div class="two">
+    <div class="card">
+      <h4>Figma</h4>
+      <p>직접 와이어프레임과 UI를 만들고 싶은 경우 적합합니다. 화면별 세부 조정과 협업에 강합니다.</p>
+    </div>
+    <div class="card">
+      <h4>Google Stitch</h4>
+      <p>텍스트 설명을 기반으로 빠르게 화면 초안을 만들고 구조를 탐색할 때 적합합니다.</p>
+    </div>
+  </div>
+
+  <h3>구조 설계 순서</h3>
+  <div class="flow">
+    <span>사이트맵</span><b class="arrow">→</b>
+    <span>사용자 흐름</span><b class="arrow">→</b>
+    <span>와이어프레임</span><b class="arrow">→</b>
+    <span>UI 스타일</span><b class="arrow">→</b>
+    <span>컴포넌트</span>
+  </div>
+
+  <h3>페이지 구조 예시</h3>
+  <pre>/
+├─ 홈
+├─ /items
+│  ├─ 검색
+│  ├─ 필터
+│  └─ 카드 목록
+├─ /items/[id]
+│  └─ 상세 페이지
+└─ /create
+   └─ 등록 폼</pre>
+
+  <h3>Codex에 넘길 디자인 명세</h3>
+  <div class="prompt">
+    <b>Prompt</b><br><br>
+    첨부한 화면 구조를 기준으로 프론트엔드를 구현해줘.<br>
+    디자인 방향은 다음과 같다.<br><br>
+    - 기업용 SaaS 느낌<br>
+    - 과한 그라데이션 금지<br>
+    - 흰색과 중성 회색 중심<br>
+    - 카드 UI는 최소한으로<br>
+    - 모바일 반응형<br>
+    - 동일한 간격 체계 유지<br>
+    - 버튼, 입력창, 카드 스타일 통일<br>
+    - 기능보다 먼저 전체 레이아웃을 완성
+  </div>
+</section>
+
+<section id="build">
+  <div class="step">STEP 04</div>
+  <h2>Codex로 프론트엔드 구현</h2>
+  <p class="lead">수업에서는 한 번에 전부 만들라고 하지 말고 작은 단위로 요청하는 것이 안정적입니다.</p>
+
+  <h3>추천 스택</h3>
+  <table>
+    <thead><tr><th>방식</th><th>추천 대상</th><th>장점</th></tr></thead>
+    <tbody>
+      <tr><td>HTML + CSS + JavaScript</td><td>완전 초급</td><td>구조가 단순하고 원리를 이해하기 쉬움</td></tr>
+      <tr><td>Vite + React</td><td>플랫폼 UI 실습</td><td>컴포넌트 구조를 경험하기 좋음</td></tr>
+      <tr><td>Next.js</td><td>실제 서비스 확장</td><td>배포, 라우팅, 서버 기능 확장이 편리함</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <strong>강의 추천</strong><br>
+    첫 실습은 Vite + React 또는 Next.js 중 하나만 고정하는 것이 좋습니다.
+    여러 프레임워크를 동시에 보여주면 설치와 오류 대응에 시간이 많이 소모됩니다.
+  </div>
+
+  <h3>예시: Vite + React 시작</h3>
+  <pre>npm create vite@latest my-platform
+cd my-platform
+npm install
+npm run dev</pre>
+
+  <h3>Codex 구현 순서</h3>
+  <ol>
+    <li>프로젝트 전체 구조 생성</li>
+    <li>공통 레이아웃 구현</li>
+    <li>더미 데이터 생성</li>
+    <li>카드와 목록 구현</li>
+    <li>검색과 필터 구현</li>
+    <li>상세 화면 구현</li>
+    <li>반응형 수정</li>
+    <li>오류 점검과 코드 정리</li>
+  </ol>
+
+  <h3>초기 구현 프롬프트</h3>
+  <div class="prompt">
+    <b>Prompt</b><br><br>
+    현재 폴더에 React 기반 프론트엔드 MVP를 만들어줘.<br>
+    먼저 PRD를 읽고 바로 코딩하지 말고 아래 순서로 진행해줘.<br><br>
+    1. 필요한 페이지 정리<br>
+    2. 컴포넌트 구조 제안<br>
+    3. 필요한 더미데이터 정의<br>
+    4. 구현 순서 제안<br>
+    5. 그 다음 코드 작성<br><br>
+    백엔드와 실제 로그인 기능은 만들지 않는다.<br>
+    데이터는 로컬 더미데이터를 사용한다.
+  </div>
+
+  <h3>수정 요청 프롬프트</h3>
+  <div class="prompt">
+    현재 프로젝트의 전체 구조는 유지해줘.<br>
+    다른 기능은 수정하지 말고 [수정할 기능]만 변경해줘.<br>
+    수정하기 전에 어떤 파일을 변경할지 먼저 알려줘.<br>
+    작업 후 변경한 파일과 이유를 요약해줘.
+  </div>
+</section>
+
+<section id="git">
+  <div class="step">STEP 05</div>
+  <h2>GitHub에 업로드</h2>
+  <p class="lead">Git은 코드를 저장하는 도구가 아니라 코드의 변경 이력을 관리하는 도구입니다.</p>
+
+  <h3>가장 기본적인 흐름</h3>
+  <pre>git init
+git add .
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/사용자명/저장소명.git
+git push -u origin main</pre>
+
+  <h3>이후 수정할 때</h3>
+  <pre>git add .
+git commit -m "update ui"
+git push</pre>
+
+  <div class="callout warning">
+    <strong>주의</strong><br>
+    API Key, 비밀번호, 서비스 비밀키는 GitHub에 올리지 않습니다.
+    실제 프로젝트에서는 <code>.env</code> 파일과 환경변수 관리가 중요합니다.
+  </div>
+</section>
+
+<section id="deploy">
+  <div class="step">STEP 06</div>
+  <h2>Vercel로 배포</h2>
+  <p class="lead">GitHub 저장소를 Vercel에 연결하면 프론트엔드 프로젝트를 실제 URL로 공개할 수 있습니다.</p>
+
+  <div class="flow">
+    <span>GitHub 저장소</span><b class="arrow">→</b>
+    <span>Vercel Import</span><b class="arrow">→</b>
+    <span>Build</span><b class="arrow">→</b>
+    <span>Deploy</span><b class="arrow">→</b>
+    <span>공개 URL</span>
+  </div>
+
+  <h3>배포 전 체크</h3>
+  <ul class="check">
+    <li>로컬에서 <code>npm run dev</code>가 정상 실행되는가?</li>
+    <li>빌드 명령이 정상 작동하는가?</li>
+    <li>모바일 화면이 깨지지 않는가?</li>
+    <li>콘솔 오류가 없는가?</li>
+    <li>GitHub 최신 코드가 push 되었는가?</li>
+  </ul>
+
+  <h3>배포가 실패하면 확인할 것</h3>
+  <ul>
+    <li>Build Command 오류</li>
+    <li>패키지 설치 오류</li>
+    <li>잘못된 import 경로</li>
+    <li>환경변수 누락</li>
+    <li>대소문자 파일명 불일치</li>
+  </ul>
+</section>
+
+<section id="backend">
+  <div class="step">STEP 07</div>
+  <h2>백엔드는 여기까지만 이해하기</h2>
+  <p class="lead">이번 수업에서는 직접 구현보다 프론트엔드 뒤에서 어떤 일이 필요한지 이해하는 것이 목적입니다.</p>
+
+  <div class="two">
+    <div class="card">
+      <h4>Supabase</h4>
+      <p>Postgres 데이터베이스, 인증, 스토리지, API 기능을 빠르게 붙일 수 있는 백엔드 플랫폼입니다.</p>
+      <div style="margin-top:12px">
+        <span class="tag">Database</span>
+        <span class="tag">Auth</span>
+        <span class="tag">Storage</span>
+        <span class="tag">API</span>
+      </div>
+    </div>
+    <div class="card">
+      <h4>Railway</h4>
+      <p>API 서버나 장시간 실행되는 백엔드 서비스를 배포할 때 사용할 수 있는 클라우드 배포 플랫폼입니다.</p>
+      <div style="margin-top:12px">
+        <span class="tag">FastAPI</span>
+        <span class="tag">Node API</span>
+        <span class="tag">Worker</span>
+        <span class="tag">Docker</span>
+      </div>
+    </div>
+  </div>
+
+  <h3>구조를 그림으로 이해하기</h3>
+  <pre>사용자 브라우저
+      ↓
+프론트엔드
+Vercel
+      ↓
+API 요청
+      ↓
+백엔드
+Supabase 또는 Railway
+      ↓
+데이터베이스 / 인증 / 연산</pre>
+
+  <h3>언제 Supabase가 필요한가?</h3>
+  <ul>
+    <li>사용자 회원가입과 로그인이 필요할 때</li>
+    <li>사용자가 입력한 데이터를 저장해야 할 때</li>
+    <li>여러 사용자가 같은 데이터를 공유해야 할 때</li>
+    <li>이미지나 파일을 저장해야 할 때</li>
+  </ul>
+
+  <h3>언제 Railway가 필요한가?</h3>
+  <ul>
+    <li>Python FastAPI 서버를 실행해야 할 때</li>
+    <li>복잡한 계산과 데이터 가공이 필요할 때</li>
+    <li>외부 API를 서버에서 안전하게 호출해야 할 때</li>
+    <li>백그라운드 작업이나 별도 서버 프로세스가 필요할 때</li>
+  </ul>
+
+  <div class="callout">
+    <strong>이번 강의의 기준선</strong><br>
+    백엔드는 연결 원리까지만 설명하고 실제 실습은 프론트엔드 배포에서 종료합니다.
+    이후 심화 과정에서 Supabase, FastAPI, Railway를 각각 별도 실습으로 분리하는 것이 좋습니다.
+  </div>
+</section>
+
+<section id="project">
+  <div class="step">STEP 08</div>
+  <h2>최종 실습 과제</h2>
+  <p class="lead">2시간에서 4시간 내 완성 가능한 정도의 작은 플랫폼을 선택합니다.</p>
+
+  <h3>추천 주제</h3>
+  <div class="card-grid">
+    <div class="card"><h4>사내 자료 검색 플랫폼</h4><p>문서 카드, 검색, 카테고리 필터, 상세 페이지</p></div>
+    <div class="card"><h4>교육과정 추천 페이지</h4><p>직무 선택, 교육 카드, 필터, 상세 정보</p></div>
+    <div class="card"><h4>AI 도구 큐레이션</h4><p>도구 목록, 분야별 필터, 검색, 링크 버튼</p></div>
+    <div class="card"><h4>업무 템플릿 라이브러리</h4><p>템플릿 카드, 태그, 상세 모달, 복사 버튼</p></div>
+    <div class="card"><h4>프로젝트 현황 대시보드</h4><p>상태 카드, 진행률, 일정 UI, 필터</p></div>
+    <div class="card"><h4>개인 포트폴리오 플랫폼</h4><p>프로젝트 목록, 경력, 상세 사례, 문의 폼</p></div>
+  </div>
+
+  <h3>최종 제출 조건</h3>
+  <ul class="check">
+    <li>PRD 문서가 있다.</li>
+    <li>사이트맵 또는 화면 구조가 있다.</li>
+    <li>Codex로 프로젝트를 생성했다.</li>
+    <li>최소 3개 이상의 UI 기능이 작동한다.</li>
+    <li>모바일 화면이 대응된다.</li>
+    <li>GitHub 저장소에 코드가 올라가 있다.</li>
+    <li>Vercel 공개 URL이 생성되어 있다.</li>
+  </ul>
+
+  <h3>마무리 질문</h3>
+  <ol>
+    <li>처음 PRD와 실제 결과물은 어디가 달라졌는가?</li>
+    <li>Codex에게 한 번에 너무 많은 요청을 한 구간은 어디였는가?</li>
+    <li>백엔드가 필요한 기능과 필요 없는 기능을 구분할 수 있는가?</li>
+    <li>다음 버전에서 추가할 기능 한 가지는 무엇인가?</li>
+  </ol>
+</section>
+
+<section>
+  <h2>강사용 핵심 메시지</h2>
+  <div class="two">
+    <div class="card">
+      <h4>코드보다 요구사항</h4>
+      <p>AI가 코드를 빠르게 만들수록 기획과 구조 정의의 중요성이 더 커집니다.</p>
+    </div>
+    <div class="card">
+      <h4>완성보다 배포 경험</h4>
+      <p>작더라도 실제 URL을 만들어 보는 경험이 다음 프로젝트의 진입장벽을 크게 낮춥니다.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>참고 자료</h2>
+  <p class="lead">수업 직전에는 각 서비스의 공식 문서를 다시 확인해 설치 화면이나 메뉴 변경 여부를 점검하세요.</p>
+  <ul>
+    <li>npm Docs: Node.js와 npm 설치, npm 기본 사용법</li>
+    <li>Supabase Docs: Database, Auth, Storage, Framework Quickstart</li>
+    <li>Railway Docs: Service, GitHub Deployment, API 서버 배포 개념</li>
+    <li>Vercel Docs: Git 연동과 프론트엔드 배포</li>
+    <li>GitHub Docs: Repository와 Git 기본 흐름</li>
+  </ul>
+</section>
+
+<div class="footer">
+  Codex Frontend Platform Workshop Course Material
+</div>
+
+</div>
+</main>
+</div>
+</body>
+</html>
